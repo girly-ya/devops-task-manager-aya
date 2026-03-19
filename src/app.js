@@ -2,13 +2,21 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-const tasksRouter = require('./routes/tasks'); 
-
+app.get('/tasks', (req, res) => {
+  res.json([
+    { id: 1, title: "Learn DevOps", completed: false },
+    { id: 2, title: "Build Docker image", completed: false }
+  ]);
+});
 
 app.get('/', (req, res) => {
   res.json({ message: "Welcome to DevOps Task Manager" });
 });
 
-app.use('/tasks', tasksRouter);
+// Export pour les tests
+module.exports = app;
 
-app.listen(3000, ()=> console.log("API running on port 3000"));
+// Démarrage uniquement si fichier exécuté directement
+if (require.main === module) {
+  app.listen(3000, () => console.log("API running on port 3000"));
+}
